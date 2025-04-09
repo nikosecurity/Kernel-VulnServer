@@ -31,29 +31,31 @@ DWORD WINAPI SendIOCTL(LPVOID lpParameter)
 	hDevice = CreateFileA(DEVICE, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, 0, 0);
 	if (hDevice == INVALID_HANDLE_VALUE)
 	{
-		printf("[-] Could not interact with device.\n");
+		printf("[-] Could not interact with device. Error: %d (0x%x)\n", GetLastError(), GetLastError());
 
 		closesocket((SOCKET)lpParameter);
 
-		return 0;
+		return 1;
 	}
 
-	while (1)
+	BytesReturned = recv((SOCKET)lpParameter, (char*)&InputData, sizeof(InputData), 0);
+	if (BytesReturned == SOCKET_ERROR)
 	{
-		BytesReturned = recv((SOCKET)lpParameter, (char*)&InputData, sizeof(InputData), 0);
-		if (BytesReturned == SOCKET_ERROR)
-		{
-			printf("[-] Socket closed. Error: %d (0x%x)\n", WSAGetLastError(), WSAGetLastError());
+		printf("[-] Socket closed. Error: %d (0x%x)\n", WSAGetLastError(), WSAGetLastError());
 
-			closesocket((SOCKET)lpParameter); // I mean... just incase right?
-			CloseHandle(hDevice);
+		closesocket((SOCKET)lpParameter);
+		CloseHandle(hDevice);
 
-			return 0;
-		}
-
-		DeviceIoControl(hDevice, InputData.IOCTL, InputData.InputBuffer, InputData.InputLength, 0, 0, &BytesReturned, 0);
-		printf("[+] Sent IOCTL.\n");
+		return 1;
 	}
+
+	DeviceIoControl(hDevice, InputData.IOCTL, InputData.InputBuffer, InputData.InputLength, 0, 0, &BytesReturned, 0);
+	printf("[+] Sent IOCTL.\n");
+
+	closesocket((SOCKET)lpParameter);
+	CloseHandle(hDevice);
+
+	return 0;
 }
 
 int main(int argc, char** argv)
