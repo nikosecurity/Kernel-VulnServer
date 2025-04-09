@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kernel-VulnServer", "Kernel-VulnServer.vcxproj", "{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "User-Mode Server\Server\Server.vcxproj", "{D3E22E3B-D173-45FE-8C0C-926E562D89D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Debug|ARM64.Build.0 = Debug|ARM64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Debug|x64.ActiveCfg = Debug|x64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Debug|x64.Build.0 = Debug|x64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Debug|x64.Deploy.0 = Debug|x64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Release|ARM64.ActiveCfg = Release|ARM64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Release|ARM64.Build.0 = Release|ARM64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Release|ARM64.Deploy.0 = Release|ARM64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Release|x64.ActiveCfg = Release|x64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Release|x64.Build.0 = Release|x64
+		{FD8E9CE2-B9EB-1B5A-8166-43C64918E3CC}.Release|x64.Deploy.0 = Release|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Debug|ARM64.ActiveCfg = Debug|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Debug|ARM64.Build.0 = Debug|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Debug|x64.ActiveCfg = Debug|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Debug|x64.Build.0 = Debug|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Release|ARM64.ActiveCfg = Release|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Release|ARM64.Build.0 = Release|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Release|x64.ActiveCfg = Release|x64
+		{D3E22E3B-D173-45FE-8C0C-926E562D89D4}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99F83BAC-030C-48E8-B8CF-2DA5A204FCBC}
+	EndGlobalSection
+EndGlobal
