@@ -20,10 +20,9 @@
 
 typedef struct _UAF_OBJECT
 {
-	unsigned long long CheckedValue;
-	PVOID pFunction;
+	CHAR pRandomData[0x1000 - sizeof(PVOID)];
 
-	CHAR pRandomData[0x1000 - sizeof(unsigned long long) - sizeof(PVOID)];
+	PVOID pFunction;
 } UAF_OBJECT, * PUAF_OBJECT;
 
 UNICODE_STRING g_DeviceName = { 0 };
@@ -79,7 +78,6 @@ NTSTATUS DriverDispatchControl(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
 
 		memset(g_pAllocation, 0, sizeof(UAF_OBJECT));
 
-		g_pAllocation->CheckedValue = 0x420420691337DEAD;
 		g_pAllocation->pFunction = (PVOID)DriverArbitraryFunction;
 
 		break;
@@ -102,16 +100,8 @@ NTSTATUS DriverDispatchControl(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
 			break;
 		}
 
-		if (g_pAllocation->CheckedValue == 0x420420691337DEAD)
-		{
-			PVOID(*pFunction)() = g_pAllocation->pFunction;
-
-			pFunction();
-		}
-		else
-		{
-			Status = STATUS_INVALID_PARAMETER;
-		}
+		PVOID(*pFunction)() = g_pAllocation->pFunction;
+		pFunction();
 
 		break;
 	}
