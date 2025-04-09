@@ -67,69 +67,59 @@ int main(int argc, char** argv)
 	SOCKET Socket = INVALID_SOCKET;
 	SOCKET ClientSocket = INVALID_SOCKET;
 
-	char Initialized = 0;
+	printf("[!] Please ensure that the kernel server driver is loaded!\n");
 
 	if (WSAStartup(MAKEWORD(2, 2), &WinsockData))
 	{
 		return 1;
 	}
 
-	printf("[!] Please ensure that the kernel server driver is loaded!\n");
+	pHost = gethostbyname("");
+	if (!pHost)
+	{
+		WSACleanup();
+		return 1;
+	}
+
+	pIP = inet_ntoa(**(struct in_addr**)pHost->h_addr_list);
+	if (!pIP)
+	{
+		WSACleanup();
+		return 1;
+	}
+
+	Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (!Socket)
+	{
+		WSACleanup();
+		return 1;
+	}
+
+	SocketAddress.sin_family = AF_INET;
+	SocketAddress.sin_addr.s_addr = inet_addr(pIP);
+	SocketAddress.sin_port = htons(LISTENING_PORT);
+	if (bind(Socket, (const struct sockaddr*)&SocketAddress, sizeof(SocketAddress)))
+	{
+		WSACleanup();
+		return 1;
+	}
+
+	if (listen(Socket, 0x7FFFFFFF))
+	{
+		WSACleanup();
+		return 1;
+	}
+	printf("[+] Listening on %s:%d\n", pIP, LISTENING_PORT);
 
 	while (1)
 	{
-		pHost = gethostbyname("");
-		if (!pHost)
-		{
-			WSACleanup();
-			return 1;
-		}
-
-		pIP = inet_ntoa(**(struct in_addr**)pHost->h_addr_list);
-		if (!pIP)
-		{
-			WSACleanup();
-			return 1;
-		}
-
-		Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		if (!Socket)
-		{
-			WSACleanup();
-			return 1;
-		}
-
-		SocketAddress.sin_family = AF_INET;
-		SocketAddress.sin_addr.s_addr = inet_addr(pIP);
-		SocketAddress.sin_port = htons(LISTENING_PORT);
-		if (bind(Socket, (const struct sockaddr*)&SocketAddress, sizeof(SocketAddress)))
-		{
-			WSACleanup();
-			return 1;
-		}
-
-		if (listen(Socket, 0x7FFFFFFF))
-		{
-			WSACleanup();
-			return 1;
-		}
-
-		if (!Initialized)
-		{
-			printf("[+] Listening on %s:%d\n", pIP, LISTENING_PORT);
-			Initialized = 1;
-		}
-
 		ClientSocket = accept(Socket, 0, 0);
 		if (!ClientSocket)
 		{
-			WSACleanup();
-			return 1;
+			continue;
 		}
 
 		CreateThread(0, 0, SendIOCTL, (void*)ClientSocket, 0, 0);
-
-		closesocket(Socket);
 	}
 
 	return 0;
