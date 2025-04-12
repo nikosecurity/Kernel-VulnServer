@@ -22,4 +22,5 @@
  On a side note, the project would use something like CMake and provide instructions for how to build with it, but there are two issues with this:
  1) This project is way too small for me to care enough to use CMake
  2) I literally don't know how to use CMake
+ 
  So, a simple Visual Studio solution will work for now.
